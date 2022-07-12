@@ -15,12 +15,14 @@ public class Bdd {
 
     /**
      * méthode récupérant les informations de connexion à la base depuis un fichier externe
+     * si le fichier n'est pas trouvé, cette appli web donnera des infos de configuration en dur
      * @param path le nom du fichier
      * @return String[] le tableau des infos : data source name, user, password
      */
     public static String[] loadConfig(String path) {
         String[] config = new String[3];
         // si le fichier n'est pas trouvé, erreur
+        
         try {
             // on crée un lecteur de fichier
             FileReader fr = new FileReader(path);
@@ -32,7 +34,9 @@ public class Bdd {
             }
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+        	config[0] = "jdbc:mysql://localhost:3306/user_access";
+        	config[1] = "cyril.enrici";
+            config[2] = "_e7sziTAeio-M_pG";
         }
 
         return config;
@@ -46,10 +50,14 @@ public class Bdd {
         if (linkBdd == null) {
             try {
                 String[] config = loadConfig("config.txt");
+                Class.forName("com.mysql.cj.jdbc.Driver");
                 linkBdd = DriverManager.getConnection(config[0], config[1], config[2]);
             } catch (SQLException e) {
                 e.printStackTrace();
-            }
+            } catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
         return linkBdd;
     }

@@ -55,6 +55,7 @@ public class ConnectionServlet extends HttpServlet {
 			this.getServletContext().getRequestDispatcher("/WEB-INF/welcomeView.jsp").forward(request, response);
 		}else {
 			//si utilisateur invalide on redirige vers la page de connexion
+			request.setAttribute("error_connect", "Connexion échouée");
 			this.doGet(request, response);
 		}
 		
